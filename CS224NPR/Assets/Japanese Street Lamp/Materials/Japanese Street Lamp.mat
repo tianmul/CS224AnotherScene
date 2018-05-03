@@ -84,11 +84,12 @@ Material:
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
-    - _blackScale: 2
+    - _blackScale: 1
     - _bleedAmount: 0.01
     - _bluramount: 0.001
     - _frequency: 2000
     - _pp: 0.1
+    - _scale: 1
     - _sigma: 2
     - _size: 10
     - _speed: 1

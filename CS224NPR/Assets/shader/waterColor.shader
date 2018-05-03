@@ -209,19 +209,19 @@ Shader "Unlit/waterColor"
 				fixed4 outline = fixed4(1,1,1,1);
 				float vdotn = abs(dot( viewDir , worldNormal ));
 				float ff = pow(vdotn,2);
-				if(ff < _EdgeThread){//edge
-					float2 findColor = float2(f*2.5f,i.uv.x/2.0f + i.uv.y/2.0f) / _blackScale;
-			     	outline = tex2D(_black, findColor);
-			     	outline.a = (outline.r + outline.g + outline.b ) / 3;
-			     	outline *= _OutColor;
-					return outline;
-				}else{//inner
-//					fixed4 col1 = GetColorFromTexture( _White1 , i.uv , _White1Adjust );
-//				 	col1.rgb = 0.2*_White1Color.rgb +0.8* col.rgb;
-//				  	col1.a *= _White1Color.a;
-//				  	outline = col1;
-//				  	return col1;
-				}
+//				if(ff < _EdgeThread){//edge
+//					float2 findColor = float2(f*2.5f,i.uv.x/2.0f + i.uv.y/2.0f) / _blackScale;
+//			     	outline = tex2D(_black, findColor);
+//			     	outline.a = (outline.r + outline.g + outline.b ) / 3;
+//			     	outline *= _OutColor;
+//					return outline;
+//				}else{//inner
+////					fixed4 col1 = GetColorFromTexture( _White1 , i.uv , _White1Adjust );
+////				 	col1.rgb = 0.2*_White1Color.rgb +0.8* col.rgb;
+////				  	col1.a *= _White1Color.a;
+////				  	outline = col1;
+////				  	return col1;
+//				}
 
 				//return outline;
 

@@ -85,7 +85,7 @@
 				//	return fixed4(0,0,0,1);
 				//}
 				float4 Ied = pow(Icb, 1 + control[2] * max(max(diff.x,diff.y),diff.z));
-				//Ied = Icb;
+				Ied = Icb;
 
 				float maxRGB = max(Ied.x, max(Ied.y, Ied.z));
 				float minRGB = min(Ied.x, min(Ied.y, Ied.z));
