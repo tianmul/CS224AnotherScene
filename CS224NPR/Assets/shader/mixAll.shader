@@ -8,6 +8,7 @@
 		_depthTex("Depth Texture", 2D) = "white" {}
 		_blurTex("After Blur Texture2", 2D) = "white" {}
 		_paperTex ("Paint Texture", 2D) = "white" {}
+		_edgeTex ("Edge Texture", 2D) = "white" {}
 	}
 
 	SubShader
@@ -47,6 +48,8 @@
 			float4 _blurTex_ST;
 			sampler2D _paperTex;
 			float4 _paperTex_ST;
+			sampler2D _edgeTex;
+			float4 _edgeTex_ST;
 			
 			v2f vert (appdata v)
 			{
@@ -67,12 +70,20 @@
 				fixed4 blur = tex2D(_afterTex, i.uv);
 				fixed4 depth = tex2D(_depthTex, i.uv);
 				fixed4 blur2 = tex2D(_blurTex, i.uv);
+				fixed4 edge = tex2D(_edgeTex, i.uv);
 				//fixed4 paper = tex2Dproj(_PaperTexture, i.grabPos);
 
 				//float4 c = color + (blur-color) * control[0];
+				
+				if (min(edge.x, min(edge.y, edge.z)) > 0.8){
+					color = fixed4(0,0,0,1);
+				}
 
-				float4 Icb = color + (blur-color) * min(control[2]*2,1);
+				float4 Icb = color + (blur-color)*0.7;// * min(control[2]*3,1);
 				float4 diff = max(0,(blur2 - color) * 5);
+				//if (max(diff.x, max(diff.y, diff.z)) > 0.1){
+				//	return fixed4(0,0,0,1);
+				//}
 				float4 Ied = pow(Icb, 1 + control[2] * max(max(diff.x,diff.y),diff.z));
 				//Ied = Icb;
 

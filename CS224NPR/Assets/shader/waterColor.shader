@@ -126,7 +126,7 @@ Shader "Unlit/waterColor"
 				float3 viewDir = WorldSpaceViewDir(v.vertex);
 
 				//hand tremor
-				float s = _speed;//speed
+				float s = _speed / _scale;//speed
 				float f = _frequency;//frequency
 				float t = _tremorAmount * _scale;//tremor amount
 				float Pp = _pp;//pixel size of projection space
@@ -140,7 +140,7 @@ Shader "Unlit/waterColor"
 
 				//o.vertex = v.vertex + float4(normalize(v.normal), 0)*0.3*sin(_Time);
 
-				o.turbulence = 0.5 + pow(sin(_Time * s + o.vertex * 1000)*0.72, 7);
+				o.turbulence = 0.5 + pow(sin(_Time * s + o.vertex * 1000)*0.72, 3);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				o.vertex = UnityObjectToClipPos(o.vertex);
 				o.worldNormal = UnityObjectToWorldNormal(v.normal);
@@ -166,36 +166,40 @@ Shader "Unlit/waterColor"
 
 				fixed4 texColor = tex2D(_MainTex, i.uv);
 				fixed3 albedo = texColor.rgb * _Color.rgb;
-				fixed3 ambient = 2*UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
+				fixed3 ambient = 2*UNITY_LIGHTMODEL_AMBIENT.xyz * texColor;
 				fixed3 diffuse = _LightColor0.rgb * albedo * max(0, dot(worldNormal, worldLightDir));
 				UNITY_LIGHT_ATTENUATION(atten, i, i.worldPos);
 				fixed shadow = SHADOW_ATTENUATION(i);
 				//float3 C =  float3(0.76,0.37,0);
-				float3 C = ambient;
+				float3 C = texColor;
+				//return texColor;
 				//C = ambient+diffuse*shadow;
 
 				//Watercolor Reflectance Model
-				float da = 1.0f;//dilute area variable
+				float da = 0.75f;//dilute area variable
 				float DA = (max(0,dot(worldNormal, worldLightDir)) + (da-1))/da;  //the area of effect
 				float c = 0.7f;
-				float d = 0.8f;
+				float d = 0.4f;
 				float3 Cp = float3(0.95,0.95,0.85);
 				float3 Cc = C + float3(DA * c,DA * c,DA * c);//cangiante color
 				float3 Cd = d * DA * (Cp - Cc) + Cc;
 
+				//return fixed4(Cd,1);
 				//Pigment Turbulence
 				float f = 1.f;
 				fixed4 noise = tex2D(_PaintTex, i.uv);
 				float Ctrl = i.turbulence;
 				//float Ctrl = noise[1];
 				float3 Ct;
-				if(Ctrl < 0.5){
-					Ct = pow(Cd, 3-(Ctrl*4));	
+				Ctrl = 0.5;
+				if(Ctrl <= 0.5){
+					//Ct = pow(Cd, 3-(Ctrl*4));
+					Ct = pow(Cd, 1);
 				} else{
 					Ct = (Ctrl - 0.5) * 2 * (Cp - Cd) + Cd;
 				}
 
-				Cd = Cd + (Cp - Cd) * Ct;
+				Cd = Ct;
 
 				//Cd = Cd + diffuse * shadow;
 				//Cd = max(0,Ct);

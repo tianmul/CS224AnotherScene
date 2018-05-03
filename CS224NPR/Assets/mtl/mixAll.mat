@@ -63,7 +63,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _blurTex:
-        m_Texture: {fileID: 8400000, guid: 5cd7b283db80e5c4f8d2e5556cfd5fbf, type: 2}
+        m_Texture: {fileID: 8400000, guid: 2254db856ac438141a8075ca9f061ae9, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ctrlTex:
@@ -72,6 +72,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _depthTex:
         m_Texture: {fileID: 8400000, guid: 2254db856ac438141a8075ca9f061ae9, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _edgeTex:
+        m_Texture: {fileID: 8400000, guid: d7b7d88fdfa4177418149aa57b13ebc1, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _paperTex:
